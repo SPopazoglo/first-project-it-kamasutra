@@ -12,8 +12,8 @@ function MyPosts() {
           <button>add post</button>
         </div>
       </div>
-      <Post />
-      <Post />
+      <Post message={`Hello! It's my first post`} likeCount={5} />
+      <Post message="Hi, how are you?" likeCount={12} />
       <Post />
       <Post />
       <Post />
