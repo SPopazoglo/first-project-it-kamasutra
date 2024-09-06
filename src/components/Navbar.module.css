@@ -1,0 +1,25 @@
+.nav {
+  grid-area: n;
+  background-color: rgb(60, 164, 4);
+}
+
+.item {
+  margin: 0 7px 10px 7px;
+}
+
+.item a:link {
+  color: white;
+  text-decoration: none;
+}
+
+.item a:visited {
+  color: rgb(26, 224, 246);
+}
+
+.item a:hover {
+  color: rgb(21, 10, 240);
+}
+
+.item a:active {
+  color: rgb(247, 243, 42);
+}
