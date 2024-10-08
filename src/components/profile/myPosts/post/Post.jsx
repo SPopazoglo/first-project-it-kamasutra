@@ -7,7 +7,7 @@ function Post(props) {
       <img src="https://img.freepik.com/photos-premium/illustration-hibou-yeux-colores_893012-62564.jpg" />
       {props.message}
       <div>
-        <span>Like</span> {props.likeCount}
+        <span>Like</span> {props.likesCount}
       </div>
     </div>
   )
