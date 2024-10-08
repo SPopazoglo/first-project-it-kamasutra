@@ -36,14 +36,14 @@ const Dialogs = (props) => {
   return (
     <div className={styles.dialogs}>
       <div className={styles.dialogsItems}>
-        {dialogsData.map((dialog) => {
-          return <DialogItem name={dialog.name} id={dialog.id} />
-        })}
+        {dialogsData.map((dialog) => (
+          <DialogItem name={dialog.name} id={dialog.id} />
+        ))}
       </div>
       <div className={styles.messages}>
-        {messagesData.map((letter) => {
-          return <Message message={letter.message} />
-        })}
+        {messagesData.map((letter) => (
+          <Message message={letter.message} />
+        ))}
       </div>
     </div>
   )

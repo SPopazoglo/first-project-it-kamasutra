@@ -6,6 +6,8 @@ function MyPosts(props) {
   const postsData = [
     { id: 1, message: 'Hi, how are you?', likesCount: 5 },
     { id: 2, message: "Hello! It's my first post", likesCount: 10 },
+    { id: 2, message: 'blalba', likesCount: 3 },
+    { id: 2, message: 'yess!!!', likesCount: 105 },
   ]
 
   return (
@@ -20,14 +22,9 @@ function MyPosts(props) {
         </div>
       </div>
       <div className={styles.posts}>
-        <Post
-          message={postsData[0].message}
-          likesCount={postsData[0].likesCount}
-        />
-        <Post
-          message={postsData[1].message}
-          likesCount={postsData[1].likesCount}
-        />
+        {postsData.map((p) => (
+          <Post message={p.message} likesCount={p.likesCount} />
+        ))}
       </div>
     </div>
   )
