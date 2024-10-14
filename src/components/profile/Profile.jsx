@@ -3,11 +3,11 @@ import MyPosts from './myPosts/MyPosts'
 import ProfileInfo from './ProfileInfo/ProfileInfo'
 import styles from './Profile.module.css'
 
-function Profile() {
+function Profile(props) {
   return (
     <div>
       <ProfileInfo />
-      <MyPosts />
+      <MyPosts postsData={props.postsData} />
     </div>
   )
 }
