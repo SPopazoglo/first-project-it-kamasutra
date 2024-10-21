@@ -7,12 +7,12 @@ const Dialogs = (props) => {
   return (
     <div className={styles.dialogs}>
       <div className={styles.dialogsItems}>
-        {props.dialogsData.map((dialog) => (
+        {props.state.dialogsData.map((dialog) => (
           <DialogItem name={dialog.name} id={dialog.id} />
         ))}
       </div>
       <div className={styles.messages}>
-        {props.messagesData.map((letter) => (
+        {props.state.messagesData.map((letter) => (
           <Message message={letter.message} />
         ))}
       </div>
