@@ -6,7 +6,7 @@ import App from './App'
 import { addPost, updateNewPostText } from './redux/state'
 import './index.css'
 
-let rerenderEntireTree = () => {
+let rerenderEntireTree = (state) => {
   const root = ReactDOM.createRoot(document.getElementById('root'))
   root.render(
     <BrowserRouter>
