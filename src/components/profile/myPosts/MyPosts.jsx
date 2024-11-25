@@ -4,7 +4,7 @@ import styles from './MyPosts.module.css'
 import {
   addPostActionCreator,
   updateNewPostTextActionCreator,
-} from '../../../redux/state'
+} from '../../../redux/profileReducer'
 
 function MyPosts(props) {
   let newPostElement = React.createRef()

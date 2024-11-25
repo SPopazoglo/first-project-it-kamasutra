@@ -5,7 +5,7 @@ import styles from './Dialogs.module.css'
 import {
   sendMessageCreator,
   updateNewMessageBodyCreator,
-} from '../../redux/state'
+} from '../../redux/dialogsReducer'
 
 const Dialogs = (props) => {
   let state = props.store.getState().dialogsPage
