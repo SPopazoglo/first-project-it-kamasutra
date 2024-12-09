@@ -6,19 +6,11 @@ import App from './App'
 import store from './redux/reduxStore'
 import './index.css'
 
-let rerenderEntireTree = () => {
-  const root = ReactDOM.createRoot(document.getElementById('root'))
-  root.render(
-    <BrowserRouter>
-      <Provider store={store}>
-        <App />
-      </Provider>
-    </BrowserRouter>
-  )
-}
-
-rerenderEntireTree()
-
-store.subscribe(() => {
-  rerenderEntireTree()
-})
+const root = ReactDOM.createRoot(document.getElementById('root'))
+root.render(
+  <BrowserRouter>
+    <Provider store={store}>
+      <App />
+    </Provider>
+  </BrowserRouter>
+)
