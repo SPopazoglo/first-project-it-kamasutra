@@ -13,7 +13,7 @@ const Users = (props) => {
 
   return (
     <div>
-      <div>
+      <div className={styles.numbersOverflow}>
         {pages.map((p) => {
           return (
             <span

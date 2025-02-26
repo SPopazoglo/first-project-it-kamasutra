@@ -6,3 +6,13 @@
 .selectedPage {
   font-weight: 700;
 }
+
+.numbersOverflow {
+  width: 1200px;
+  overflow: scroll;
+  padding: 5px;
+}
+
+.numbersOverflow span {
+  margin-right: 3.5px;
+}
