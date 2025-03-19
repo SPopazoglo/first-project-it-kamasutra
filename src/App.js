@@ -8,6 +8,7 @@ import Settings from './components/Settings/Settings'
 import UsersContainer from './components/Users/UsersContainer'
 import './App.css'
 import HeaderContainer from './components/header/HeaderContainer'
+import Login from './components/login/Login'
 
 function App(props) {
   return (
@@ -22,6 +23,7 @@ function App(props) {
           <Route path="music" element={<Music />} />
           <Route path="settings" element={<Settings />} />
           <Route path="users" element={<UsersContainer />} />
+          <Route path="login" element={<Login />} />
         </Routes>
       </div>
     </div>
