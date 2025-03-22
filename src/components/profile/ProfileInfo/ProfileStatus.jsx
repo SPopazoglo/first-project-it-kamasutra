@@ -25,6 +25,14 @@ class ProfileStatus extends React.Component {
     })
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.status !== this.props.status) {
+      this.setState({
+        status: this.props.status,
+      })
+    }
+  }
+
   render() {
     return (
       <div>
@@ -41,7 +49,7 @@ class ProfileStatus extends React.Component {
               onBlur={this.deactivateEditMode}
               autoFocus
               onChange={this.onStatusChange}
-              value={this.status}
+              value={this.state.status}
             />
           </div>
         )}
