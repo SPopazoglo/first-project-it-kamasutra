@@ -7,7 +7,13 @@ function Header(props) {
     <header className={styles.header}>
       <img src="https://thumbs.dreamstime.com/b/fresh-grass-meadow-tree-15424454.jpg" />
       <div className={styles.loginBlock}>
-        {props.isAuth ? props.login : <NavLink to="/login">Login</NavLink>}
+        {props.isAuth ? (
+          <div>
+            {props.login}-<button onClick={props.logout}>Log out</button>
+          </div>
+        ) : (
+          <NavLink to="/login">Login</NavLink>
+        )}
       </div>
     </header>
   )
