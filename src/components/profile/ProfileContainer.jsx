@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Navigate, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import Profile from './Profile'
 import {
   getStatus,
@@ -26,7 +26,7 @@ class ProfileContainer extends React.Component {
   componentDidMount() {
     let userId = this.props.params.userId
     if (!userId) {
-      userId = 32254
+      userId = this.props.autorizedUserId
     }
     this.props.getUserProfile(userId)
     this.props.getStatus(userId)
@@ -47,6 +47,8 @@ class ProfileContainer extends React.Component {
 let mapStateToProps = (state) => ({
   profile: state.profilePage.profile,
   status: state.profilePage.status,
+  autorizedUserId: state.auth.id,
+  isAuth: state.auth.isAuth,
 })
 
 export default compose(
