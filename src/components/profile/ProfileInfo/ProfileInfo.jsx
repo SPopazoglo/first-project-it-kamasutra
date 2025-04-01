@@ -2,6 +2,7 @@ import React from 'react'
 import styles from './ProfileInfo.module.css'
 import Preloader from '../../common/preloader/Preloader'
 import ProfileStatus from './ProfileStatus'
+import ProfileStatusWithHooks from './ProfileStatusWithHooks'
 
 function ProfileInfo(props) {
   if (!props.profile) {
@@ -20,7 +21,7 @@ function ProfileInfo(props) {
             'https://cdn-icons-png.flaticon.com/256/5531/5531660.png'
           }
         />
-        <ProfileStatus
+        <ProfileStatusWithHooks
           status={props.status}
           updateStatus={props.updateStatus}
         />
