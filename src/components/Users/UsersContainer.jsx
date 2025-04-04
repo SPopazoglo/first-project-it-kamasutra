@@ -1,6 +1,8 @@
 import React from 'react'
+import { compose } from 'redux'
 import { connect } from 'react-redux'
 import Users from './Users'
+import Preloader from '../common/preloader/Preloader'
 import {
   follow,
   setCurrentPage,
@@ -8,8 +10,6 @@ import {
   toggleFollowingProgress,
   requestUsers,
 } from '../../redux/usersReducer'
-import Preloader from '../common/preloader/Preloader'
-import { compose } from 'redux'
 import {
   getCurrentPage,
   getFollowingInProgress,
@@ -21,11 +21,13 @@ import {
 
 class UsersContainer extends React.Component {
   componentDidMount() {
-    this.props.requestUsers(this.props.currentPage, this.props.pageSize)
+    let { currentPage, pageSize } = this.props
+    this.props.requestUsers(currentPage, pageSize)
   }
 
   onPageChanged = (pageNumber) => {
-    this.props.requestUsers(pageNumber, this.props.pageSize)
+    let { pageSize } = this.props
+    this.props.requestUsers(pageNumber, pageSize)
   }
 
   render() {
@@ -82,7 +84,6 @@ let mapStateToProps = (state) => {
 // }
 
 export default compose(
-  //withAuthRedirect,
   connect(mapStateToProps, {
     follow,
     unfollow,
