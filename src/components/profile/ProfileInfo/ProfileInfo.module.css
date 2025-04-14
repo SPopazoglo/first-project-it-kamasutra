@@ -6,6 +6,6 @@
   padding: 10px;
 }
 
-/* .descriptionBlock img {
-  width: 250px;
-} */
+.image {
+  max-width: 250px;
+}
