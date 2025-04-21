@@ -9,3 +9,14 @@
 .image {
   max-width: 250px;
 }
+
+.contact {
+  padding-left: 10px;
+}
+
+.formSummaryError {
+  display: inline-block;
+  border: 2px solid red;
+  padding: 5px;
+  color: crimson;
+}
