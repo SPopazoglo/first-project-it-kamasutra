@@ -1,6 +1,6 @@
 import React, { Suspense, lazy } from 'react'
 import { connect, Provider } from 'react-redux'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import Navbar from './components/navbar/Navbar'
 import News from './components/News/News'
 import Music from './components/Music/Music'
@@ -10,6 +10,7 @@ import HeaderContainer from './components/header/HeaderContainer'
 import Login from './components/login/Login'
 import { initializeApp } from './redux/appReducer'
 import Preloader from './components/common/preloader/Preloader'
+import NotFound from './components/common/NotFound/NotFound'
 import store from './redux/reduxStore'
 import './App.css'
 // import ProfileContainer from './components/profile/ProfileContainer'
@@ -38,6 +39,7 @@ class App extends React.Component {
         <div className="app-wrapper-content">
           <Suspense fallback={<Preloader />}>
             <Routes>
+              <Route path="/" element={<Navigate to="profile" />} />
               <Route path="profile/:userId?" element={<ProfileContainer />} />
               <Route path="dialogs" element={<DialogsContainer />} />
               <Route path="news" element={<News />} />
@@ -45,6 +47,7 @@ class App extends React.Component {
               <Route path="settings" element={<Settings />} />
               <Route path="users" element={<UsersContainer />} />
               <Route path="login" element={<Login />} />
+              <Route path="*" element={<NotFound />} />
             </Routes>
           </Suspense>
         </div>
