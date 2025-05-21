@@ -18,14 +18,37 @@ import {
   getTotalUsersCount,
   getUsers,
 } from '../../redux/usersSelectors'
+import { UserType } from '../../../types/types'
+import { AppStateType } from '../../redux/reduxStore'
 
-class UsersContainer extends React.Component {
+type MapStatePropsType = {
+  users: Array<UserType>
+  pageSize: number
+  totalUsersCount: number
+  currentPage: number
+  isFetching: boolean
+  followingInProgress: Array<number>
+}
+
+type MapDispatchPropsType = {
+  follow: (userId: number) => void
+  unfollow: (userId: number) => void
+  requestUsers: (currentPage: number, pageSize: number) => void
+}
+
+type OwnPropsType = {
+  pageTitle: string
+}
+
+type PropsType = MapStatePropsType & MapDispatchPropsType & OwnPropsType
+
+class UsersContainer extends React.Component<PropsType> {
   componentDidMount() {
     let { currentPage, pageSize } = this.props
     this.props.requestUsers(currentPage, pageSize)
   }
 
-  onPageChanged = (pageNumber) => {
+  onPageChanged = (pageNumber: number) => {
     let { pageSize } = this.props
     this.props.requestUsers(pageNumber, pageSize)
   }
@@ -33,6 +56,7 @@ class UsersContainer extends React.Component {
   render() {
     return (
       <>
+        <h2>{this.props.pageTitle}</h2>
         {this.props.isFetching ? <Preloader /> : null}
         <Users
           totalUsersCount={this.props.totalUsersCount}
@@ -49,7 +73,7 @@ class UsersContainer extends React.Component {
   }
 }
 
-let mapStateToProps = (state) => {
+let mapStateToProps = (state: AppStateType): MapStatePropsType => {
   return {
     users: getUsers(state),
     pageSize: getPageSize(state),
@@ -84,11 +108,12 @@ let mapStateToProps = (state) => {
 // }
 
 export default compose(
-  connect(mapStateToProps, {
-    follow,
-    unfollow,
-    setCurrentPage,
-    toggleFollowingProgress,
-    requestUsers,
-  })
+  connect<MapStatePropsType, MapDispatchPropsType, OwnPropsType, AppStateType>(
+    mapStateToProps,
+    {
+      follow,
+      unfollow,
+      requestUsers,
+    }
+  )
 )(UsersContainer)
