@@ -1,17 +1,15 @@
 import { stopSubmit } from 'redux-form'
-import { authAPI, securityAPI } from '../api/api'
+import {
+  authAPI,
+  ResultCodeForCaptcha,
+  ResultCodesEnum,
+  securityAPI,
+} from '../api/api'
+import { ThunkAction } from 'redux-thunk'
+import { AppStateType } from './reduxStore'
 
 const SET_USERS_DATA = 'samurai-network/auth/SET_USERS_DATA'
 const GET_CAPTCHA_URL_SUCCESS = 'samurai-network/auth/GET_CAPTCHA_URL_SUCCESS'
-
-// export type InitialStateType = {
-//   id: number | null
-//   email: string | null
-//   login: string | null
-//   isFetching: boolean
-//   isAuth: boolean
-//   captchaURL: string | null
-// }
 
 const initialState = {
   id: null as number | null,
@@ -24,7 +22,12 @@ const initialState = {
 
 export type InitialStateType = typeof initialState
 
-const authReducer = (state = initialState, action: any): InitialStateType => {
+type ActionsTypes = SetAuthUsersDataActionType | GetCaptchaUrlSuccessActionType
+
+const authReducer = (
+  state = initialState,
+  action: ActionsTypes
+): InitialStateType => {
   switch (action.type) {
     case SET_USERS_DATA:
     case GET_CAPTCHA_URL_SUCCESS:
@@ -70,36 +73,44 @@ export const getCaptchaUrlSuccess = (
   payload: { captchaURL },
 })
 
-export const getAuthUserData = () => async (dispatch: any) => {
-  const data = await authAPI.me()
-  if (data.resultCode === 0) {
-    let { id, login, email } = data.data
+type ThunkType = ThunkAction<Promise<void>, AppStateType, unknown, ActionsTypes>
+
+export const getAuthUserData = (): ThunkType => async (dispatch) => {
+  const meData = await authAPI.me()
+  if (meData.resultCode === ResultCodesEnum.Success) {
+    let { id, login, email } = meData.data
     dispatch(setAuthUsersData(id, email, login, true))
   }
 }
 
 export const login =
-  (email: string, password: string, rememberMe: boolean, captcha: any) =>
+  (
+    email: string,
+    password: string,
+    rememberMe: boolean,
+    captcha: string | null
+  ) =>
   async (dispatch: any) => {
-    const data = await authAPI.login(email, password, rememberMe, captcha)
-    if (data.resultCode === 0) {
+    const loginData = await authAPI.login(email, password, rememberMe, captcha)
+    if (loginData.resultCode === ResultCodesEnum.Success) {
       dispatch(getAuthUserData())
     } else {
-      if (data.resultCode === 10) {
+      if (loginData.resultCode === ResultCodeForCaptcha.CapthaIsReguired) {
         dispatch(getCaptchaURL())
       }
-      let message = data.messages.length > 0 ? data.messages[0] : 'Some error'
+      let message =
+        loginData.messages.length > 0 ? loginData.messages[0] : 'Some error'
       dispatch(stopSubmit('login', { _error: message }))
     }
   }
 
-export const getCaptchaURL = () => async (dispatch: any) => {
+export const getCaptchaURL = (): ThunkType => async (dispatch) => {
   const data = await securityAPI.getCaptchaURL()
   const captchaURL = data.url
   dispatch(getCaptchaUrlSuccess(captchaURL))
 }
 
-export const logout = () => async (dispatch: any) => {
+export const logout = (): ThunkType => async (dispatch) => {
   const data = await authAPI.logout()
   if (data.resultCode === 0) {
     dispatch(setAuthUsersData(null, null, null, false))

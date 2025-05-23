@@ -1,6 +1,7 @@
 const SEND_MESSAGE = 'SEND_MESSAGE'
 
 export type InitialStateType = typeof initialState
+type ActionsTypes = SendMessageCreatorActionType
 
 type DialogType = {
   id: number
@@ -28,10 +29,7 @@ const initialState = {
   ] as Array<MessageType>,
 }
 
-const dialogsReducer = (
-  state = initialState,
-  action: SendMessageCreatorActionType
-) => {
+const dialogsReducer = (state = initialState, action: ActionsTypes) => {
   switch (action.type) {
     case SEND_MESSAGE:
       let body = action.newMessageBody
