@@ -1,7 +1,12 @@
 import React from 'react'
 import styles from './Post.module.css'
 
-function Post(props) {
+type PropsType = {
+  message: string
+  likesCount: number
+}
+
+function Post(props: PropsType) {
   return (
     <div className={styles.item}>
       <img src="https://i.7fon.org/450/g581772.jpg" />

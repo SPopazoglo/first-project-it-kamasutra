@@ -3,6 +3,7 @@ import { UserType } from '../../types/types'
 import { usersAPI } from '../api/users-api'
 import { updateObjectInArray } from '../utils/objectHelpers'
 import { BaseThunkType, InferActionsTypes } from './reduxStore'
+import { APIResponseType } from '../api/api'
 
 let initialState = {
   users: [] as Array<UserType>,
@@ -116,7 +117,7 @@ export const requestUsers = (
 const _followUnfollowFlow = async (
   dispatch: Dispatch<ActionsTypes>,
   userId: number,
-  apiMethod: any,
+  apiMethod: (id: number) => Promise<APIResponseType>,
   actionCreator: (userId: number) => ActionsTypes
 ) => {
   dispatch(actions.toggleFollowingProgress(true, userId))

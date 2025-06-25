@@ -11,18 +11,23 @@ import Login from './components/login/Login'
 import { initializeApp } from './redux/appReducer'
 import Preloader from './components/common/preloader/Preloader'
 import NotFound from './components/common/NotFound/NotFound'
-import store from './redux/reduxStore'
+import store, { AppStateType } from './redux/reduxStore'
 import './App.css'
 // import ProfileContainer from './components/profile/ProfileContainer'
 // import DialogsContainer from './components/Dialogs/DialogsContainer'
-const ProfileContainer = lazy(() =>
-  import('./components/profile/ProfileContainer')
+const ProfileContainer = lazy(
+  () => import('./components/profile/ProfileContainer')
 )
-const DialogsContainer = lazy(() =>
-  import('./components/Dialogs/DialogsContainer')
+const DialogsContainer = lazy(
+  () => import('./components/Dialogs/DialogsContainer')
 )
 
-class App extends React.Component {
+type MapPropsType = ReturnType<typeof mapStateToProps>
+type DispatchPropsType = {
+  initializeApp: () => void
+}
+
+class App extends React.Component<MapPropsType & DispatchPropsType> {
   componentDidMount() {
     this.props.initializeApp()
   }
@@ -59,13 +64,13 @@ class App extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: AppStateType) => ({
   initialized: state.app.initialized,
 })
 
-let AppContainer = connect(mapStateToProps, { initializeApp })(App)
+const AppContainer = connect(mapStateToProps, { initializeApp })(App)
 
-const SamuraiJSApp = (props) => {
+const SamuraiJSApp = () => {
   return (
     <BrowserRouter>
       <Provider store={store}>
