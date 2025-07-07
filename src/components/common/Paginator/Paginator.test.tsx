@@ -1,5 +1,4 @@
 import React from 'react'
-import test, { describe } from 'node:test'
 import { create } from 'react-test-renderer'
 import Paginator from './Paginator'
 
