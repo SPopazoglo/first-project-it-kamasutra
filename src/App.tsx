@@ -1,20 +1,26 @@
 import React, { Suspense, lazy } from 'react'
 import { connect, Provider } from 'react-redux'
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Navigate, Link } from 'react-router-dom'
 import Navbar from './components/navbar/Navbar'
 import News from './components/News/News'
 import Music from './components/Music/Music'
 import Settings from './components/Settings/Settings'
 import { UsersContainer } from './components/Users/UsersContainer'
-import HeaderContainer from './components/header/HeaderContainer'
+import { Header } from './components/header/Header'
 import { Login } from './components/login/Login'
 import { initializeApp } from './redux/appReducer'
 import Preloader from './components/common/preloader/Preloader'
 import NotFound from './components/common/NotFound/NotFound'
 import store, { AppStateType } from './redux/reduxStore'
 import './App.css'
-// import ProfileContainer from './components/profile/ProfileContainer'
-// import DialogsContainer from './components/Dialogs/DialogsContainer'
+import {
+  LaptopOutlined,
+  NotificationOutlined,
+  SettingOutlined,
+  UserOutlined,
+} from '@ant-design/icons'
+import type { MenuProps } from 'antd'
+import { Avatar, Breadcrumb, Layout, Menu } from 'antd'
 const ProfileContainer = lazy(
   () => import('./components/profile/ProfileContainer')
 )
@@ -27,6 +33,40 @@ type DispatchPropsType = {
   initializeApp: () => void
 }
 
+const { Content, Footer, Sider } = Layout
+
+export type MenuItem = Required<MenuProps>['items'][number]
+
+export function getItem(
+  label: React.ReactNode,
+  key?: React.Key | null,
+  icon?: React.ReactNode,
+  children?: MenuItem[]
+): MenuItem {
+  return {
+    key,
+    icon,
+    children,
+    label,
+  } as MenuItem
+}
+const itemsSideMenu: MenuItem[] = [
+  getItem('My Profile', 'MyProfile', <UserOutlined />, [
+    getItem(<Link to="profile">Profile</Link>, 'Profile'),
+    getItem(<Link to="dialogs">Messages</Link>, 'Messages'),
+    getItem(<Link to="news">News</Link>, 'News'),
+    getItem(<Link to="music">Music</Link>, 'Music'),
+  ]),
+
+  getItem('Developers', 'Developers', <LaptopOutlined />, [
+    getItem(<Link to="users">Users</Link>, 'Users'),
+  ]),
+
+  getItem('Settings', 'Settings', <SettingOutlined />, [
+    getItem(<Link to="settings">Settings</Link>, 'Settings'),
+  ]),
+]
+
 class App extends React.Component<MapPropsType & DispatchPropsType> {
   componentDidMount() {
     this.props.initializeApp()
@@ -38,28 +78,76 @@ class App extends React.Component<MapPropsType & DispatchPropsType> {
     }
 
     return (
-      <div className="App app-wrapper">
-        <HeaderContainer />
-        <Navbar />
-        <div className="app-wrapper-content">
-          <Suspense fallback={<Preloader />}>
-            <Routes>
-              <Route path="/" element={<Navigate to="profile" />} />
-              <Route path="profile/:userId?" element={<ProfileContainer />} />
-              <Route path="dialogs" element={<DialogsContainer />} />
-              <Route path="news" element={<News />} />
-              <Route path="music" element={<Music />} />
-              <Route path="settings" element={<Settings />} />
-              <Route
-                path="users"
-                element={<UsersContainer pageTitle="страница пользователей" />}
+      <Layout>
+        <Header />
+        <div style={{ padding: '0 48px' }}>
+          <Layout
+            style={{
+              padding: '24px 0',
+              background: 'white',
+              borderRadius: '15px',
+            }}
+          >
+            <Sider style={{ background: 'white' }} width={200}>
+              <Menu
+                mode="inline"
+                defaultSelectedKeys={['1']}
+                defaultOpenKeys={['sub1']}
+                style={{ height: '100%' }}
+                items={itemsSideMenu}
               />
-              <Route path="login" element={<Login />} />
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </Suspense>
+            </Sider>
+            <Content style={{ padding: '0 24px', minHeight: 280 }}>
+              <Suspense fallback={<Preloader />}>
+                <Routes>
+                  <Route path="/" element={<Navigate to="profile" />} />
+                  <Route
+                    path="profile/:userId?"
+                    element={<ProfileContainer />}
+                  />
+                  <Route path="dialogs" element={<DialogsContainer />} />
+                  <Route path="news" element={<News />} />
+                  <Route path="music" element={<Music />} />
+                  <Route path="settings" element={<Settings />} />
+                  <Route
+                    path="users"
+                    element={
+                      <UsersContainer pageTitle="страница пользователей" />
+                    }
+                  />
+                  <Route path="login" element={<Login />} />
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
+              </Suspense>
+            </Content>
+          </Layout>
         </div>
-      </div>
+        <Footer style={{ textAlign: 'center' }}>
+          Samurai Social Network ©{new Date().getFullYear()} Created by Sergei
+        </Footer>
+      </Layout>
+      // <div className="App app-wrapper">
+      //   <HeaderContainer />
+      //   <Navbar />
+      //   <div className="app-wrapper-content">
+      //     <Suspense fallback={<Preloader />}>
+      //       <Routes>
+      //         <Route path="/" element={<Navigate to="profile" />} />
+      //         <Route path="profile/:userId?" element={<ProfileContainer />} />
+      //         <Route path="dialogs" element={<DialogsContainer />} />
+      //         <Route path="news" element={<News />} />
+      //         <Route path="music" element={<Music />} />
+      //         <Route path="settings" element={<Settings />} />
+      //         <Route
+      //           path="users"
+      //           element={<UsersContainer pageTitle="страница пользователей" />}
+      //         />
+      //         <Route path="login" element={<Login />} />
+      //         <Route path="*" element={<NotFound />} />
+      //       </Routes>
+      //     </Suspense>
+      //   </div>
+      // </div>
     )
   }
 }

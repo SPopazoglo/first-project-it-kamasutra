@@ -1,30 +1,51 @@
 import React from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { Link } from 'react-router-dom'
+import { Avatar, Button, Layout, Menu } from 'antd'
+import { UserOutlined } from '@ant-design/icons'
+import { getItem, MenuItem } from '../../App'
+import { AppDispatch } from '../../redux/reduxStore'
+import { logout } from '../../redux/authReducer'
+import { selectIsAuth, selectCurrentUserLogin } from '../../redux/authSelectors'
 import styles from './Header.module.css'
-import { NavLink } from 'react-router-dom'
 
-export type MapPropsType = {
-  isAuth: boolean
-  login: string | null
-}
-export type DispatchPropsType = {
-  logout: () => void
-}
+const itemsHeaderMenu: MenuItem[] = [
+  getItem(<Link to="profile">Profile</Link>, 'Profile'),
+  getItem(<Link to="users">Users</Link>, 'Users'),
+]
 
-function Header(props: MapPropsType & DispatchPropsType) {
+export const Header: React.FC = (props) => {
+  const isAuth = useSelector(selectIsAuth)
+  const login = useSelector(selectCurrentUserLogin)
+  const dispatch: AppDispatch = useDispatch()
+  const logoutCallback = () => {
+    dispatch(logout())
+  }
+
+  const { Header } = Layout
   return (
-    <header className={styles.header}>
-      <img src="https://thumbs.dreamstime.com/b/fresh-grass-meadow-tree-15424454.jpg" />
-      <div className={styles.loginBlock}>
-        {props.isAuth ? (
-          <div>
-            {props.login} - <button onClick={props.logout}>Log out</button>
-          </div>
-        ) : (
-          <NavLink to="/login">Login</NavLink>
-        )}
-      </div>
-    </header>
+    <Header style={{ display: 'flex', alignItems: 'center' }}>
+      <Menu
+        theme="dark"
+        mode="horizontal"
+        defaultSelectedKeys={['1']}
+        items={itemsHeaderMenu}
+        style={{ flex: 1, minWidth: 0 }}
+      />
+
+      {isAuth ? (
+        <div>
+          <Avatar
+            style={{ backgroundColor: '#87d068' }}
+            icon={<UserOutlined />}
+          />
+          {login} <Button onClick={logoutCallback}>Log out</Button>
+        </div>
+      ) : (
+        <Button>
+          <Link to="/login">Login</Link>
+        </Button>
+      )}
+    </Header>
   )
 }
-
-export default Header
