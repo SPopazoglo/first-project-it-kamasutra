@@ -1,7 +1,6 @@
 import React, { Suspense, lazy } from 'react'
 import { connect, Provider } from 'react-redux'
 import { BrowserRouter, Routes, Route, Navigate, Link } from 'react-router-dom'
-import Navbar from './components/navbar/Navbar'
 import News from './components/News/News'
 import Music from './components/Music/Music'
 import Settings from './components/Settings/Settings'
@@ -15,18 +14,18 @@ import store, { AppStateType } from './redux/reduxStore'
 import './App.css'
 import {
   LaptopOutlined,
-  NotificationOutlined,
   SettingOutlined,
   UserOutlined,
 } from '@ant-design/icons'
 import type { MenuProps } from 'antd'
-import { Avatar, Breadcrumb, Layout, Menu } from 'antd'
+import { Layout, Menu } from 'antd'
 const ProfileContainer = lazy(
   () => import('./components/profile/ProfileContainer')
 )
 const DialogsContainer = lazy(
   () => import('./components/Dialogs/DialogsContainer')
 )
+const ChatPage = lazy(() => import('./pages/Chat/ChatPage'))
 
 type MapPropsType = ReturnType<typeof mapStateToProps>
 type DispatchPropsType = {
@@ -60,9 +59,10 @@ const itemsSideMenu: MenuItem[] = [
 
   getItem('Developers', 'Developers', <LaptopOutlined />, [
     getItem(<Link to="users">Users</Link>, 'Users'),
+    getItem(<Link to="chat">Chat</Link>, 'Chat'),
   ]),
 
-  getItem('Settings', 'Settings', <SettingOutlined />, [
+  getItem('Settings1', 'Settings1', <SettingOutlined />, [
     getItem(<Link to="settings">Settings</Link>, 'Settings'),
   ]),
 ]
@@ -116,6 +116,7 @@ class App extends React.Component<MapPropsType & DispatchPropsType> {
                     }
                   />
                   <Route path="login" element={<Login />} />
+                  <Route path="chat" element={<ChatPage />} />
                   <Route path="*" element={<NotFound />} />
                 </Routes>
               </Suspense>

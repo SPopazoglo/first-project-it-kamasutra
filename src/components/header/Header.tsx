@@ -34,12 +34,15 @@ export const Header: React.FC = (props) => {
       />
 
       {isAuth ? (
-        <div>
+        <div style={{ color: 'white' }}>
           <Avatar
-            style={{ backgroundColor: '#87d068' }}
+            style={{ backgroundColor: '#87d068', marginRight: 15 }}
             icon={<UserOutlined />}
           />
-          {login} <Button onClick={logoutCallback}>Log out</Button>
+          {login}
+          <Button onClick={logoutCallback} style={{ marginLeft: 15 }}>
+            Log out
+          </Button>
         </div>
       ) : (
         <Button>
